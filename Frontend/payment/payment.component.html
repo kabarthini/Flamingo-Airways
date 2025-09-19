@@ -1,0 +1,67 @@
+<div class="payment-container">
+  <div class="form-header">
+    <h2>✈ Flamingo Airways - Payment</h2>
+  </div>
+
+  <form [formGroup]="paymentForm" (ngSubmit)="onPay()">
+
+
+    <div class="form-group-inline">
+      <label>Flight ID:</label>
+      <input type="number" formControlName="flightId" placeholder="Enter Flight ID">
+      <button type="button" (click)="getFlightDetails()">🔍 Search Flight</button>
+    </div>
+
+ 
+    <div *ngIf="flight" class="flight-details">
+      <h3>🛫 Flight Details</h3>
+      <p><strong>Flight:</strong> {{ flight?.flightNumber ?? flight?.FlightNumber }}</p>
+      <p><strong>Source:</strong> {{ flight?.origin ?? flight?.Origin }}</p>
+      <p><strong>Destination:</strong> {{ flight?.destination ?? flight?.Destination }}</p>
+      <p><strong>Travel Date:</strong> {{ (flight?.travelDate ?? flight?.TravelDate) | date:'yyyy-MM-dd' }}</p>
+      <p><strong>Ticket Price:</strong> ₹{{ flight?.price ?? flight?.Price }}</p>
+    </div>
+
+    <hr>
+
+    <div>
+      <label>👤 Passenger Name:</label>
+      <input formControlName="passengerName" placeholder="Enter full name">
+    </div>
+
+    <div>
+      <label>👥 Passenger Count:</label>
+      <input type="number" formControlName="passengerCount" min="1">
+    </div>
+
+    <h3>💳 Card Details</h3>
+
+    <div>
+      <label>Card Number:</label>
+      <input type="text" formControlName="cardNumber" placeholder="XXXX-XXXX-XXXX-XXXX">
+    </div>
+
+    <div class="form-group-inline">
+      <div>
+        <label>Expiry (MM/YY):</label>
+        <input type="text" formControlName="expiry" placeholder="MM/YY">
+      </div>
+      <div>
+        <label>CVV:</label>
+        <input type="password" formControlName="cvv" placeholder="***">
+      </div>
+    </div>
+
+
+    <div class="total-badge">
+      <strong>Total: ₹{{ total }}</strong>
+    </div>
+
+  
+    <button type="submit" [disabled]="!flight || paymentForm.invalid">💳 Pay Securely</button>
+  </form>
+
+ 
+  <p *ngIf="message" style="color:green">{{ message }}</p>
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+</div>
